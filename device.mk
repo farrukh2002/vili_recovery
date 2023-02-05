@@ -12,7 +12,11 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
+
+DEVICE_PATH := device/xiaomi/vili
+
+# Dynamic partition stuff
+PRODUCT_USE_DYNAMIC_PARTITIONS := true
 
 # Configure base.mk
 $(call inherit-product, $(SRC_TARGET_DIR)/product/base.mk)
@@ -43,6 +47,11 @@ PRODUCT_HOST_PACKAGES += \
 PRODUCT_SHIPPING_API_LEVEL := 30
 # VNDK API
 PRODUCT_TARGET_VNDK_VERSION := 31
+
+# Qcom common decryption
+PRODUCT_PACKAGES += \
+    qcom_decrypt\
+    qcom_decrypt_fbe
 
 # Soong namespaces
 PRODUCT_SOONG_NAMESPACES += \
