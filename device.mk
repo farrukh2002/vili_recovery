@@ -13,8 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-DEVICE_PATH := device/xiaomi/vili
-
 # Dynamic partition stuff
 PRODUCT_USE_DYNAMIC_PARTITIONS := true
 
