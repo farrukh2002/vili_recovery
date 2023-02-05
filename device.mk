@@ -36,6 +36,11 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
 # Configure twrp
 $(call inherit-product, vendor/twrp/config/common.mk)
 
+# fastboot/d hal
+PRODUCT_PACKAGES += \
+    android.hardware.fastboot@1.0-impl-mock \
+    fastbootd
+
 PRODUCT_PACKAGES += \
     bootctrl.xiaomi_sm8350.recovery \
     android.hardware.boot@1.1-impl-qti.recovery
@@ -63,5 +68,5 @@ PRODUCT_USE_DYNAMIC_PARTITIONS := true
 PRODUCT_EXTRA_RECOVERY_KEYS += \
     $(DEVICE_PATH)/security/miui_releasekey
 
-TWRP_REQUIRED_MODULES += miui_prebuilt \
-    magisk_prebuilt
+#TWRP_REQUIRED_MODULES += miui_prebuilt \
+    #magisk_prebuilt
