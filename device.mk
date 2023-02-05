@@ -18,51 +18,18 @@ DEVICE_PATH := device/xiaomi/vili
 # Dynamic partition stuff
 PRODUCT_USE_DYNAMIC_PARTITIONS := true
 
-# Configure base.mk
-$(call inherit-product, $(SRC_TARGET_DIR)/product/base.mk)
-
-# Configure core_64_bit_only.mk
-$(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit_only.mk)
-
-# Configure gsi_keys.mk
-$(call inherit-product, $(SRC_TARGET_DIR)/product/gsi_keys.mk)
-
-# Configure Virtual A/B
-$(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota.mk)
-
-# Configure SDCard replacement functionality
-$(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
-
-# Configure twrp
-$(call inherit-product, vendor/twrp/config/common.mk)
+# SHIPPING API
+PRODUCT_SHIPPING_API_LEVEL := 30
 
 # fastboot/d hal
 PRODUCT_PACKAGES += \
     android.hardware.fastboot@1.0-impl-mock \
     fastbootd
 
-PRODUCT_PACKAGES += \
-    bootctrl.xiaomi_sm8350.recovery \
-    android.hardware.boot@1.1-impl-qti.recovery
-
-PRODUCT_HOST_PACKAGES += \
-    libandroidicu
-
-# SHIPPING API
-PRODUCT_SHIPPING_API_LEVEL := 30
-# VNDK API
-PRODUCT_TARGET_VNDK_VERSION := 31
-
 # Qcom common decryption
 PRODUCT_PACKAGES += \
     qcom_decrypt\
     qcom_decrypt_fbe
-
-# Soong namespaces
-PRODUCT_SOONG_NAMESPACES += \
-    $(DEVICE_PATH)
-
-PRODUCT_USE_DYNAMIC_PARTITIONS := true
 
 # otacert
 PRODUCT_EXTRA_RECOVERY_KEYS += \
@@ -74,6 +41,28 @@ AB_OTA_POSTINSTALL_CONFIG += \
     POSTINSTALL_PATH_system=system/bin/otapreopt_script \
     FILESYSTEM_TYPE_system=ext4 \
     POSTINSTALL_OPTIONAL_system=true
+
+# Boot control HAL
+PRODUCT_PACKAGES += \
+    android.hardware.boot@1.0-impl \
+    android.hardware.boot@1.0-service
+
+PRODUCT_STATIC_BOOT_CONTROL_HAL := \
+    bootctrl.xiaomi_sm8350 \
+    libgptutils \
+    libz \
+    libcutils
+
+PRODUCT_PACKAGES += \
+    bootctrl.xiaomi_sm8350.recovery \
+    android.hardware.boot@1.1-impl-qti.recovery
+
+PRODUCT_HOST_PACKAGES += \
+    libandroidicu
+
+# Soong namespaces
+#PRODUCT_SOONG_NAMESPACES += \
+    #$(DEVICE_PATH)
 
 #TWRP_REQUIRED_MODULES += miui_prebuilt \
     #magisk_prebuilt
