@@ -17,13 +17,17 @@
 DEVICE_PATH := device/xiaomi/vili
 
 # Inherit from device.mk configuration
-$(call inherit-product, $(DEVICE_PATH)/device.mk)
+$(call inherit-product, device/Xiaomi/vili/device.mk)
+
+# Inherit from PBRP-common stuffs.
+$(call inherit-product, vendor/pb/config/common.mk)
 
 # Release name
 PRODUCT_RELEASE_NAME := vili
 
 ## Device identifier. This must come after all inclusions
 PRODUCT_DEVICE := vili
+PRODUCT_RELEASE_NAME := vili
 PRODUCT_NAME := twrp_vili
 PRODUCT_BRAND := Xiaomi
 PRODUCT_MODEL := Xiaomi 11T Pro
