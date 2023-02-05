@@ -58,7 +58,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_HOST_PACKAGES += \
     libandroidicu
 
-Soong namespaces
+# Soong namespaces
 PRODUCT_SOONG_NAMESPACES += \
     $(DEVICE_PATH)
 
