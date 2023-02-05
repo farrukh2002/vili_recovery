@@ -10,3 +10,11 @@ ro.charger.enable_suspend=1
 
 # Reset allocatable space
 ro.dynamic.full_size=9126805504
+
+# USB and MTP stuff
+#sys.usb.controller=a600000.dwc3
+#persist.sys.usb.config=mtp,adb
+#persist.sys.isUsbOtgEnabled=true
+
+# AVB
+#ro.boot.avb_version=1.2
