@@ -12,7 +12,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
+
+DEVICE_PATH := device/xiaomi/vili
 
 # Architecture
 TARGET_ARCH := arm64
@@ -46,13 +47,13 @@ QCOM_BOARD_PLATFORMS += xiaomi_sm8350
 # Kernel
 VENDOR_CMDLINE := "console=ttyMSM0,115200n8 androidboot.hardware=qcom androidboot.console=ttyMSM0 androidboot.memcg=1 lpm_levels.sleep_disabled=1 video=vfb:640x400,bpp=32,memsize=3072000 msm_rtb.filter=0x237 service_locator.enable=1 androidboot.usbcontroller=a600000.dwc3 swiotlb=0 loop.max_part=7 cgroup.memory=nokmem,nosocket pcie_ports=compat loop.max_part=7 iptable_raw.raw_before_defrag=1 ip6table_raw.raw_before_defrag=1 buildvariant=user reboot=panic_warm androidboot.init_fatal_reboot_target=recovery androidboot.selinux=permissive"
 BOARD_KERNEL_PAGESIZE := 4096
-BOARD_KERNEL_BASE          := 0x00000000
+BOARD_KERNEL_BASE := 0x00000000
 TARGET_KERNEL_ARCH := arm64
 TARGET_KERNEL_HEADER_ARCH := arm64
 TARGET_KERNEL_CLANG_COMPILE := true
 BOARD_KERNEL_IMAGE_NAME := Image
 BOARD_BOOT_HEADER_VERSION := 3
-TARGET_PREBUILT_KERNEL := $(DEVICE_PATH)/prebuilt/$(PRODUCT_RELEASE_NAME)/kernel
+TARGET_PREBUILT_KERNEL := $(DEVICE_PATH)/prebuilt/vili/kernel
 
 BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOT_HEADER_VERSION)
 BOARD_MKBOOTIMG_ARGS += --vendor_cmdline $(VENDOR_CMDLINE)
@@ -61,11 +62,11 @@ BOARD_MKBOOTIMG_ARGS += --pagesize $(BOARD_KERNEL_PAGESIZE) --board ""
 
 # Kenel dtb
 # BOARD_INCLUDE_DTB_IN_BOOTIMG := true
-TARGET_PREBUILT_DTB := $(DEVICE_PATH)/prebuilt/$(PRODUCT_RELEASE_NAME)/dtb
+TARGET_PREBUILT_DTB := $(DEVICE_PATH)/prebuilt/vili/dtb
 BOARD_MKBOOTIMG_ARGS += --dtb $(TARGET_PREBUILT_DTB)
 
 # Kenel dtbo
-BOARD_PREBUILT_DTBOIMAGE := $(DEVICE_PATH)/prebuilt/$(PRODUCT_RELEASE_NAME)/dtbo.img
+BOARD_PREBUILT_DTBOIMAGE := $(DEVICE_PATH)/prebuilt/vili/dtbo.img
 
 #A/B
 BOARD_USES_RECOVERY_AS_BOOT := true
@@ -89,6 +90,7 @@ BOARD_AVB_ENABLE := true
 
 # Partitions
 BOARD_BOOTIMAGE_PARTITION_SIZE := 201326592
+BOARD_USES_QCOM_HARDWARE := true
 
 # Dynamic Partition
 BOARD_SUPER_PARTITION_SIZE := 9126805504
@@ -116,7 +118,11 @@ TARGET_PLATFORM_DEVICE_BASE := /devices/soc/
 
 # Recovery
 BOARD_HAS_LARGE_FILESYSTEM := true
-TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
+TARGET_RECOVERY_PIXEL_FORMAT := RGBX_8888
+TARGET_USES_MKE2FS := true
+TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/recovery/root/system/etc/recovery.fstab
+TARGET_SYSTEM_PROP := $(DEVICE_PATH)/system.prop
+TARGET_VENDOR_PROP := $(DEVICE_PATH)/vendor.prop
 
 ALLOW_MISSING_DEPENDENCIES := true
 
@@ -140,12 +146,12 @@ BUILD_BROKEN_USES_NETWORK := true
 TW_INCLUDE_REPACKTOOLS := true
 TW_INCLUDE_RESETPROP := true
 TW_INCLUDE_LIBRESETPROP := true
+TW_INCLUDE_BASH := true
 			     
 # TWRP specific build flags
 TW_THEME := portrait_hdpi
-ifeq ($(TW_DEVICE_VERSION),)
 TW_DEVICE_VERSION=12.0
-endif
+#endif
 RECOVERY_SDCARD_ON_DATA := true
 TARGET_RECOVERY_QCOM_RTC_FIX := true
 TW_EXCLUDE_DEFAULT_USB_INIT := true
@@ -155,9 +161,9 @@ TW_USE_TOOLBOX := true
 TW_INPUT_BLACKLIST := "hbtp_vm"
 TW_BRIGHTNESS_PATH := "/sys/class/backlight/panel0-backlight/brightness"
 TW_MAX_BRIGHTNESS := 2047
-ifeq ($(TW_DEFAULT_LANGUAGE),)
-TW_DEFAULT_LANGUAGE := zh_CN
-endif
+#ifeq ($(TW_DEFAULT_LANGUAGE),)
+TW_DEFAULT_LANGUAGE := en
+#endif
 TW_DEFAULT_BRIGHTNESS := 200
 TWRP_INCLUDE_LOGCAT := true
 TARGET_USES_LOGD := true
@@ -171,3 +177,6 @@ TW_LOAD_VENDOR_MODULES := "fts_touch_spi_k8.ko adsp_loader_dlkm.ko qti_battery_c
 TW_CUSTOM_CPU_TEMP_PATH := "/sys/class/thermal/thermal_zone20/temp"
 TW_BATTERY_SYSFS_WAIT_SECONDS := 5
 TW_BACKUP_EXCLUSIONS := /data/fonts
+
+# PBRP stuffs - specific lines
+PB_DISABLE_DEFAULT_DM_VERITY := false
