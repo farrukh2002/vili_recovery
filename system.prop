@@ -21,8 +21,5 @@ ro.adb.secure=1
 # AVB
 #ro.boot.avb_version=1.2
 
-# Battery Property
-ro.charger.enable_suspend=1
-
 # Reset allocatable space
 ro.dynamic.full_size=9126805504
